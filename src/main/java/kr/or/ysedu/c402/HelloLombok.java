@@ -22,7 +22,6 @@ public class HelloLombok {
 		HelloLombok helloLombok = new HelloLombok("헬로", 5);
 //		helloLombok.setHello("헬로");
 //		helloLombok.setLombok(5);
-		
 		System.out.println(helloLombok.getHello());
 		System.out.println(helloLombok.getLombok());
 	}
