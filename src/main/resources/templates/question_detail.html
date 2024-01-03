@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
 </head>
 <body>
+	
 	<h1 th:text="${question.subject}"></h1>
 	<div th:text="${question.content}"></div>
 	
@@ -16,7 +18,7 @@
 	</div>
 	
 	<form th:action="@{|/answer/create/${question.id}|}" method="post">
-		<textarea name="content" id="content" rows="15"></textarea>]
+		<textarea name="content" id="content" rows="15"></textarea>
 		<input type="submit" value="답변등록">
 	</form>
 </body>
