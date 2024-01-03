@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.or.ysedu.c402.answer.Answer;
+import kr.or.ysedu.c402.answer.AnswerRepository;
+import kr.or.ysedu.c402.question.Question;
+import kr.or.ysedu.c402.question.QuestionRepository;
+
 
 
 
