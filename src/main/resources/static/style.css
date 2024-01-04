@@ -1,9 +1,1 @@
-@charset "EUC-KR";
-
-textarea {
-	width:100%;
-}
-
-input[type=submit]{
-	maring-top:10px;
-}
+@charset "UTF-8";
