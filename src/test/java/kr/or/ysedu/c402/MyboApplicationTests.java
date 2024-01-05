@@ -17,6 +17,7 @@ import kr.or.ysedu.c402.answer.Answer;
 import kr.or.ysedu.c402.answer.AnswerRepository;
 import kr.or.ysedu.c402.question.Question;
 import kr.or.ysedu.c402.question.QuestionRepository;
+import kr.or.ysedu.c402.question.QuestionService;
 
 
 
@@ -28,18 +29,19 @@ class MyboApplicationTests {
     private QuestionRepository questionRepository;
     
     @Autowired
+    private QuestionService questionService;
+    
+    @Autowired
     private AnswerRepository answerRepository;
     
-    @Transactional
+  
     @Test
     void testJpa() {        
-    	Optional<Question> oq = this.questionRepository.findById(2);
-        assertTrue(oq.isPresent());
-        Question q = oq.get();
-
-        List<Answer> answerList = q.getAnswerList();
-
-        assertEquals(1, answerList.size());
-        assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+    	for (int i=1; i<=300; i++) {
+    		String subject = String.format("테스트 데이터입니다:[%3d]", i);
+    		String content = "내용없음";
+    		
+    		this.questionService.create(subject, content);
+    	}
     }
 }
