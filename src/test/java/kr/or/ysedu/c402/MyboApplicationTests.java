@@ -41,7 +41,7 @@ class MyboApplicationTests {
     		String subject = String.format("테스트 데이터입니다:[%3d]", i);
     		String content = "내용없음";
     		
-    		this.questionService.create(subject, content);
+    		this.questionService.create(subject, content, null);
     	}
     }
 }

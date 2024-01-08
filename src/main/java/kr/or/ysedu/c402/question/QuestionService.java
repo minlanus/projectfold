@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import kr.or.ysedu.c402.DataNotFoundException;
+import kr.or.ysedu.c402.user.SiteUser;
 
 import org.springframework.boot.context.config.ConfigDataLocationNotFoundException;
 import org.springframework.data.domain.Page;
@@ -39,11 +40,12 @@ public class QuestionService {
 		return this.questionRepository.findAll(pageable);
 	}
 	
-	public void create(String subject, String content) {
+	public void create(String subject, String content, SiteUser user) {
 		Question q = new Question();
 		q.setSubject(subject);
 		q.setContent(content);
 		q.setCreateDate(LocalDateTime.now());
+		q.setAuthor(user);
 		this.questionRepository.save(q);
 	}
 }
