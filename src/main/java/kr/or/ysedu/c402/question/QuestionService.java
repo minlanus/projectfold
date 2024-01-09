@@ -22,6 +22,7 @@ public class QuestionService {
 	
 	private final QuestionRepository questionRepository;
 	
+	
 	public List<Question> getList(){
 		return this.questionRepository.findAll();
 	}
@@ -47,5 +48,16 @@ public class QuestionService {
 		q.setCreateDate(LocalDateTime.now());
 		q.setAuthor(user);
 		this.questionRepository.save(q);
+	}
+	
+	public void modify(Question question, String subject, String content) {
+		question.setSubject(subject);
+		question.setContent(content);
+		question.setCreateDate(LocalDateTime.now());
+		this.questionRepository.save(question);
+	}
+	
+	public void delete(Question question) {
+		this.questionRepository.delete(question);
 	}
 }
