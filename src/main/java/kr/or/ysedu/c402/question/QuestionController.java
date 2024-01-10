@@ -39,9 +39,11 @@ public class QuestionController {
 	
 //	@ResponseBody
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value="page", defaultValue="1") int page) {
-		Page<Question> paging = this.questionService.getList(page - 1);
+	public String list(Model model, @RequestParam(value="page", defaultValue="1") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
+		
+		Page<Question> paging = this.questionService.getList(page - 1, kw);
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
 		return "question_list";
 	}
 	
@@ -66,7 +68,7 @@ public class QuestionController {
         }
 		SiteUser siteUser = this.userService.getUser(principal.getName());
 		this.questionService.create(questionForm.getSubject(),
-				questionForm.getContent(), siteUser);
+				questionForm.getContent(), siteUser, 0);
 		return "redirect:/question/list"; // 질문 저장 후 질문목록으로 이동
 	}
 	
@@ -107,12 +109,13 @@ public class QuestionController {
         return "redirect:/";
     }
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/vote/{id}")
-	public String questionVote(Principal principal, @PathVariable("id") Integer id) {
-		Question question = this.questionService.getQuestion(id);
-		SiteUser siteUser = this.userService.getUser(principal.getName());
-		this.questionService.vote(question, siteUser);
-		return String.format("redirect:/question/detall/%s", id);
+    @GetMapping("/vote/{id}")
+    public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+        Question question = this.questionService.getQuestion(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.questionService.vote(question, siteUser);
+        return String.format("redirect:/question/detail/%s", id);
 	}
+	
 }
 

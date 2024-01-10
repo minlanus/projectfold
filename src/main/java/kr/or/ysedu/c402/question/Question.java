@@ -46,4 +46,7 @@ public class Question {
     
     @ManyToMany
     Set<SiteUser> voter;
+    
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private Integer view;
 }
