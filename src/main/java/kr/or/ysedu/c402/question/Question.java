@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +38,7 @@ public class Question {
 
     @Column(columnDefinition = "TEXT")
     private String content;
-
+   
     private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
@@ -41,7 +46,7 @@ public class Question {
     
     @ManyToOne
     private SiteUser author;
-    
+   
     private LocalDateTime modifyDate;
     
     @ManyToMany
@@ -49,4 +54,6 @@ public class Question {
     
     @Column(columnDefinition = "integer default 0", nullable = false)
     private Integer view;
+    
+ 
 }

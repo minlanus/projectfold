@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+	<form th:action="@{/areaT/areaup}" th:object="${areaTable}" method="post">
+    	<div>
+	    	<select th:field="*{ar}">
+	    		<option value="">--지역--</option>
+	    		<option th:each="area: ${area}" th:value="${area.ar}" th:text="${area.ar}"></option>	
+	    	</select>
+    	</div>
+    	<div>
+    		<label for="content">주소</label>
+    		<input type="text" id="content" th:field="*{content}" >
+    	</div>
+    	<div>
+	    	<label>성별</label>
+	    	<label>남</label>	
+		    <input type="radio" name="name" th:value="남자" checked>
+		    <label>여</label>
+		   	<input type="radio" name="name" th:value="여자">    	
+    	</div>
+    	<button value="저장">확인</button>
+    </form>
+    
+</div>
+</body>
+</html>

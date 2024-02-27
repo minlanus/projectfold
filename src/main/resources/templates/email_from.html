@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form th:action="@{/user/data}" th:object="${userEmailForm}" method="post">
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+			<div class="mb-3">
+				<label for="newEmail" class="form-label">변경할 이메일</label>
+				<input type="email" th:field="*{newEmail}" class="form-control">
+			</div>
+			<button type="submit" class="btn btn-primary">확인</button>
+		</form>
+	</div>
+</body>
+</html>

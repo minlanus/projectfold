@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form th:action="@{/user/pwModify}" th:object="${userPasswordForm}" method="post">
+			<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+			<div class="mb-3">
+				<label for="password" class="form-label">현재 비밀번호</label>
+				<input type="password" th:field="*{password}" class="form-control">
+			</div>
+			<div class="mb-3">
+				<label for="newPw1" class="form-label">새 비밀번호</label>
+				<input type="password" th:field="*{newPw1}" class="form-control">
+			</div>
+			<div class="mb-3">
+				<label for="newPw2" class="form-label">새 비밀번호 확인</label>
+				<input type="password" th:field="*{newPw2}" class="form-control">
+			</div>
+			<button type="submit" class="btn btn-primary">확인</button>
+		</form>
+	</div>
+</body>
+</html>

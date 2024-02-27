@@ -3,6 +3,8 @@ package kr.or.ysedu.c402.question;
 import java.security.Principal;
 import java.util.List;
 
+import javax.security.auth.Subject;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
+import kr.or.ysedu.c402.answer.Answer;
 import kr.or.ysedu.c402.answer.AnswerForm;
+import kr.or.ysedu.c402.answer.AnswerRepository;
+import kr.or.ysedu.c402.answer.AnswerService;
 import kr.or.ysedu.c402.user.SiteUser;
 import kr.or.ysedu.c402.user.UserService;
 
@@ -32,6 +37,8 @@ public class QuestionController {
 	
 	private final QuestionRepository questionRepository;
 	
+	private final AnswerService answerService;
+	
 	private final QuestionService questionService;
 	
 	private final UserService userService;
@@ -40,7 +47,6 @@ public class QuestionController {
 //	@ResponseBody
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value="page", defaultValue="1") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
-		
 		Page<Question> paging = this.questionService.getList(page - 1, kw);
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
@@ -48,9 +54,12 @@ public class QuestionController {
 	}
 	
 	@GetMapping(value = "/detail/{id}")
-	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm,
+			@RequestParam(value = "answerPage", defaultValue = "1") int answerPage) {
 		Question question = this.questionService.getQuestion(id);
+		Page<Answer> answerPageing = this.answerService.getList(answerPage - 1, question);
 		model.addAttribute("question", question);
+		model.addAttribute("answerPageing", answerPageing);
 		return "question_detail";
 	}
 	
@@ -116,6 +125,8 @@ public class QuestionController {
         this.questionService.vote(question, siteUser);
         return String.format("redirect:/question/detail/%s", id);
 	}
+	
+	
 	
 }
 

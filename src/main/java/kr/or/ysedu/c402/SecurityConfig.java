@@ -1,7 +1,9 @@
 package kr.or.ysedu.c402;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -22,7 +24,7 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
         .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-            .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+        		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
 		.csrf((csrf) -> csrf
 				.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
 		.headers((headers) -> headers
@@ -47,4 +49,5 @@ public class SecurityConfig {
 	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
+	
 }

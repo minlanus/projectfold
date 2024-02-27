@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import kr.or.ysedu.c402.DataNotFoundException;
 import kr.or.ysedu.c402.answer.Answer;
+import kr.or.ysedu.c402.answer.AnswerRepository;
 import kr.or.ysedu.c402.user.SiteUser;
+import kr.or.ysedu.c402.user.UserRepository;
 
 import org.springframework.boot.context.config.ConfigDataLocationNotFoundException;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,8 @@ import lombok.RequiredArgsConstructor;
 public class QuestionService {
 	
 	private final QuestionRepository questionRepository;
+	
+	private final UserRepository userRepository;
 	
 	private Specification<Question> search(String kw) {
 		return new Specification<Question>() {
@@ -65,6 +69,7 @@ public class QuestionService {
 			throw new DataNotFoundException("question not found");
 		}
 	}
+	
 	public Page<Question> getList(int page, String kw){
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
@@ -97,5 +102,9 @@ public class QuestionService {
 		question.getVoter().add(siteUser);
 		this.questionRepository.save(question);
 	}
-	
+	public List<Question> getUserQuestion(String username, int page){
+		Pageable pageable = PageRequest.of(0, page);
+		return questionRepository.findByUserQuestion(username, pageable);
+	}
+
 }

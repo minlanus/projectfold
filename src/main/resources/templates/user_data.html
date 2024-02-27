@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<div>	
+		<ul>
+			<li th:text="|Name : ${user.username}|" style="list-style-type: none;"></li>
+			<li th:text="|Email : ${user.email}|" style="list-style-type: none;"></li>
+			<li style="list-style-type: none;"><a th:href="@{/user/emailModify}" >Email 변경</a></li>
+		</ul>
+	</div>
+  	<div>
+    	<p>등록한 게시글</p>
+        <div th:each="question: ${questionList}" style="border: 0.5px solid; margin-bottom: 1px;">
+       		<p><a style="text-decoration: none;" th:href="@{|/question/detail/${question.id}|}" th:text="|제목 : ${question.subject}|"></a> <span th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+       		<p th:text="|답변 : ${question.content}|"></p> 
+        </div>
+    </div>
+    <div>
+    	<a th:href="@{/user/pwModify}">비밀번호변경</a>
+    </div>
+    
+    
+</div>
+
+</body>
+</html>

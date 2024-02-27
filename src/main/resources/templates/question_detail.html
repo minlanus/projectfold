@@ -24,6 +24,7 @@
                			<span th:if="${question.author != null}" th:text="${question.author.username}"></span>
                		</div>
                     <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+
                 </div>
             </div>
             <div class="my-3">
@@ -47,9 +48,9 @@
     <h5 class="border-bottom my-3 py-2" 
         th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
     <!-- 답변 반복 시작 -->
-    <div class="card my-3" th:each="answer : ${question.answerList}">
+    <div class="my-3" th:each="answer : ${answerPageing}">
     	<a th:id="|answer_${answer.id}|"></a>
-        <div class="card-body">
+        <div class="card-body card" style="position:relative;">
             <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
             <div class="d-flex justify-content-end">
             	<div th:if="${answer.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
@@ -78,10 +79,40 @@
 	                sec:authorize="isAuthenticated()"
 	                th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
 	                th:text="삭제"></a>
+	            
         	</div>
+    
         </div>
+      
     </div>
     <!-- 답변 반복 끝  -->
+    <!-- 페이징처리 시작 -->
+    <div th:if="${!answerPageing.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!answerPageing.hasPrevious} ? 'disabled'">
+                <a class="page-link" href="javascript:void(0)"  th:data-page="${answerPageing.number}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, answerPageing.totalPages-1)}"
+            	th:if="${page >= answerPageing.number-1 and page <= answerPageing.number+4}"
+                th:classappend="${page == answerPageing.number} ? 'active'" 
+                class="page-item">
+                <a th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page+1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!answerPageing.hasNext} ? 'disabled'">
+                <a class="page-link" href="javascript:void(0)" th:data-page="${answerPageing.number+2}">
+                    <span>다음</span>
+                </a>
+            </li>
+      
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
+    <form th:action="@{|/question/detail/${question.id}|}" method="get" id="searchForm">
+    	<input type="hidden" id="page" name="page" th:value="${answerPageing.number}">
+    </form>
+    <h1 th:text=${question.id}></h1>
     <!-- 답변 작성 -->
     <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
@@ -108,6 +139,16 @@ Array.from(recommend_elements).forEach(function(element) {
         };
     });
 });
+
+const page_elements = document.getElementsByClassName("page-link");
+Array.from(page_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        document.getElementById('page').value = this.dataset.page;
+        document.getElementById('searchForm').submit();
+    });
+});
+
+
 </script>
 </body>
 </html>
